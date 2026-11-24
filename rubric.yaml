@@ -1,0 +1,272 @@
+# AI Use Case Intake & Risk Check: policy configuration
+#
+# This file is the policy. A policy owner can change tiers, triggers,
+# controls and value assumptions here without touching code.
+# Every change should be reviewed by InfoSec and Legal (quarterly at minimum).
+#
+# Fictional organization: a global health nonprofit. All data is synthetic.
+
+version: "0.1.0"
+effective_date: "2026-11-24"
+owner: "AI Governance (fictional)"
+
+# --------------------------------------------------------------------------
+# Tiers, lowest to highest. The final tier is the HIGHEST of the rule tier
+# and the model tier: the model can raise a tier, never lower it.
+# --------------------------------------------------------------------------
+tiers: [low, medium, high, prohibited]
+
+# --------------------------------------------------------------------------
+# Intake form vocabulary. Rules refer to these codes; the Submit page shows
+# the labels. Keeping both here means the form and the rules cannot drift.
+# --------------------------------------------------------------------------
+form_options:
+  team:
+    programs: Programs
+    finance: Finance
+    hr: HR
+    it: IT
+    communications: Communications
+    me: M&E
+    supply_chain: Supply chain
+  data_types:
+    public: Public
+    internal: Internal, non-sensitive
+    confidential: Confidential (contracts, budgets, proposals)
+    donor_restricted: Donor-restricted
+    staff_personal: Personal data about staff or job applicants
+    participant_personal_health: Personal or health data about program participants
+  destination:
+    approved_enterprise: Approved enterprise AI tool
+    approved_api: Approved tool through an API
+    consumer_free: Consumer or free tool
+    not_sure: Not sure
+  audience:
+    only_me: Only me
+    my_team: My team
+    whole_org: Whole organization
+    external: Donors, partners or the public
+  decision_type:
+    hiring: Hiring
+    performance: Performance
+    eligibility: Eligibility for services
+    education: Education or training access
+    other: Other
+  human_review:
+    always: Always
+    sometimes: Sometimes
+    "no": "No"
+
+# --------------------------------------------------------------------------
+# Rubric: six dimensions. The worst dimension sets the tier (no averaging).
+#
+# Trigger syntax: every condition in `when` must hold (AND). For OR, write
+# a second trigger. Operators:
+#   any_of:  the field's value (or any item of a list field) is in `values`
+#   is_true: the field is true
+# A trigger with `scored_by: model` has no `when`: rules cannot see it, so
+# only the model can raise that level. It is listed so the rubric text sent
+# to the model is complete.
+# --------------------------------------------------------------------------
+dimensions:
+  data_privacy:
+    label: Data privacy
+    nist_genai_risk: [Data Privacy]
+    triggers:
+      - id: DP-H1
+        level: high
+        description: Personal or health data about program participants
+        when:
+          - {field: data_types, any_of: [participant_personal_health]}
+      - id: DP-H2
+        level: high
+        description: Staff or applicant personal data with EU or UK people involved
+        when:
+          - {field: data_types, any_of: [staff_personal]}
+          - {field: eu_uk_involved, is_true: true}
+      - id: DP-M1
+        level: medium
+        description: Staff or applicant personal data
+        when:
+          - {field: data_types, any_of: [staff_personal]}
+      - id: DP-M2
+        level: medium
+        description: Confidential data
+        when:
+          - {field: data_types, any_of: [confidential]}
+      - id: DP-M3
+        level: medium
+        description: The description mentions data the form did not declare
+        scored_by: model
+
+  confidentiality_ip:
+    label: Confidentiality and IP
+    nist_genai_risk: [Intellectual Property]
+    triggers:
+      - id: CI-H1
+        level: high
+        description: Confidential or donor-restricted data going to a consumer or free tool
+        when:
+          - {field: data_types, any_of: [confidential, donor_restricted]}
+          - {field: destination, any_of: [consumer_free]}
+      - id: CI-M1
+        level: medium
+        # Gap fill: the brief names approved tools only. "Not sure" is
+        # treated the same, so an unknown route never scores lower.
+        description: Confidential or donor-restricted data in an approved tool, or destination unknown
+        when:
+          - {field: data_types, any_of: [confidential, donor_restricted]}
+          - {field: destination, any_of: [approved_enterprise, approved_api, not_sure]}
+
+  bias_fairness:
+    label: Bias and fairness
+    nist_genai_risk: [Harmful Bias or Homogenization]
+    triggers:
+      - id: BF-H1
+        level: high
+        description: Output informs a decision about a person
+        when:
+          - {field: decision_about_person, is_true: true}
+      - id: BF-M1
+        level: medium
+        description: Output describes or segments groups of people
+        scored_by: model
+
+  output_integrity:
+    label: Output integrity
+    nist_genai_risk: [Confabulation, Information Integrity]
+    triggers:
+      - id: OI-H1
+        level: high
+        description: Shared with donors, partners or the public without review of every output
+        when:
+          - {field: audience, any_of: [external]}
+          - {field: human_review, any_of: [sometimes, "no"]}
+      - id: OI-M1
+        level: medium
+        # Gap fill: external audience with full review is at least as
+        # exposed as an organization-wide one.
+        description: Shared organization-wide or externally
+        when:
+          - {field: audience, any_of: [whole_org, external]}
+      - id: OI-M2
+        level: medium
+        # Gap fill: "No" review is treated at least as strictly as "Sometimes".
+        description: Outputs reviewed only sometimes, or not at all
+        when:
+          - {field: human_review, any_of: [sometimes, "no"]}
+
+  security_tool_route:
+    label: Security and tool route
+    nist_genai_risk: [Information Security, Value Chain and Component Integration]
+    triggers:
+      - id: ST-H1
+        level: high
+        description: Consumer or free tool with any data above Public
+        when:
+          - {field: destination, any_of: [consumer_free]}
+          - {field: data_types, any_of: [internal, confidential, donor_restricted, staff_personal, participant_personal_health]}
+      - id: ST-M1
+        level: medium
+        description: Destination is "Not sure"
+        when:
+          - {field: destination, any_of: [not_sure]}
+
+  regulation_eu_ai_act:
+    label: Regulation (EU AI Act)
+    nist_genai_risk: []
+    triggers:
+      - id: RG-H1
+        level: high
+        # Added beyond the brief: a deterministic floor for Annex III uses,
+        # so this dimension does not depend on the model alone.
+        description: Used in hiring, performance, education or eligibility for services, with EU or UK people involved (Annex III screen)
+        when:
+          - {field: decision_type, any_of: [hiring, performance, education, eligibility]}
+          - {field: eu_uk_involved, is_true: true}
+      - id: RG-H2
+        level: high
+        description: Annex III high-risk use described in the text but not captured by the form
+        scored_by: model
+      - id: RG-M1
+        level: medium
+        description: A chatbot or generated content people see, which carries a transparency duty
+        scored_by: model
+
+# Above High. Only the model can flag it; the reviewer can only decline it.
+prohibited:
+  description: >-
+    A practice the EU AI Act bans outright (Article 5), such as emotion
+    recognition in the workplace or education, social scoring, or
+    manipulative techniques that exploit vulnerabilities.
+  scored_by: model
+  reviewer_actions: [decline]
+
+# The human-review answer (form field 8) maps to its own GenAI Profile risk.
+human_review_nist_genai_risk: [Human-AI Configuration]
+
+# --------------------------------------------------------------------------
+# Controls and review required per tier
+# --------------------------------------------------------------------------
+controls:
+  low:
+    required:
+      - Use an approved tool
+      - Start from a prompt library template
+    review: One-click reviewer approval
+    reviewer_actions: [approve, request_info, decline]
+  medium:
+    required:
+      - Approved enterprise tool only
+      - A person reviews every output before use
+      - Label AI-assisted content
+    review: Reviewer approves with named conditions
+    reviewer_actions: [approve_with_conditions, request_info, decline]
+  high:
+    required:
+      - Data protection review with InfoSec and Legal
+      - Bias check before launch
+      - Pilot with a defined success measure
+      - Named business owner
+    review: Reviewer decision plus recorded InfoSec and Legal sign-off
+    reviewer_actions: [approve_with_conditions, request_info, decline]
+    signoffs_required: [infosec, legal]
+  prohibited:
+    required: []
+    review: Decline, with the reason logged
+    reviewer_actions: [decline]
+
+# --------------------------------------------------------------------------
+# Value assumptions (labelled as assumptions in the app)
+# hours saved per year = hours/person/week x people x share saved x weeks
+# --------------------------------------------------------------------------
+value:
+  working_weeks_per_year: 46
+  loaded_hourly_rate_usd: 50
+  high_value_hours_cutoff: 500
+  share_saved_min: 0.10
+  share_saved_max: 0.80
+
+# --------------------------------------------------------------------------
+# Value vs risk priority. Prohibited never reaches the grid.
+# Medium and High both count as higher risk here; the tier still sets controls.
+# --------------------------------------------------------------------------
+priority:
+  higher_risk_tiers: [medium, high]
+  quadrants:
+    fast_track:        {value: high, risk: lower,  label: Fast track}
+    govern_then_build: {value: high, risk: higher, label: Govern, then build}
+    self_serve:        {value: low,  risk: lower,  label: Self-serve with a prompt template}
+    park:              {value: low,  risk: higher, label: Park}
+
+# --------------------------------------------------------------------------
+# NIST AI RMF 1.0 (Jan 26, 2023) and Generative AI Profile, NIST AI 600-1
+# (Jul 26, 2024). NIST has said AI RMF 1.0 is being revised.
+# --------------------------------------------------------------------------
+nist_ai_rmf:
+  version: "AI RMF 1.0 (January 26, 2023) with NIST AI 600-1 (July 26, 2024)"
+  functions:
+    govern: Written policy in rubric.yaml; reviewer role separate from submitter; InfoSec and Legal sign-off for High; insert-only audit log
+    map: Intake form records purpose, data, audience, people affected and countries
+    measure: Six-dimension scoring; eval set with agreement, under-calls and stability
+    manage: Controls per tier; approve, add conditions, decline or park; value vs risk priority
