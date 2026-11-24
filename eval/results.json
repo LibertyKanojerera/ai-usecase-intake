@@ -1,9 +1,13 @@
 {
-  "generated_at": "2026-11-24T20:38:44+00:00",
+  "generated_at": "2026-11-24T23:52:24+00:00",
   "rubric_version": "0.1.0",
-  "mode": "rules_only",
-  "model": null,
-  "usage": null,
+  "mode": "rules+model",
+  "model": "claude-haiku-5-5",
+  "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "calls": 66
+  },
   "summary": {
     "n": 11,
     "final": {
@@ -18,9 +22,18 @@
       "over": 0,
       "no_answer": 0
     },
-    "model_alone": null,
-    "floor_saves": null,
-    "stability": null
+    "model_alone": {
+      "match": 0,
+      "under": 0,
+      "over": 0,
+      "no_answer": 11
+    },
+    "floor_saves": 10,
+    "stability": {
+      "runs_per_request": 3,
+      "requests_with_model_tier_change": 0,
+      "requests_with_final_tier_change": 0
+    }
   },
   "rows": [
     {
@@ -29,14 +42,20 @@
       "expected": "low",
       "rules": "low",
       "rules_triggered": [],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "low",
       "final_runs": [
+        "low",
+        "low",
         "low"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -51,14 +70,20 @@
       "expected": "low",
       "rules": "low",
       "rules_triggered": [],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "low",
       "final_runs": [
+        "low",
+        "low",
         "low"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -75,14 +100,20 @@
       "rules_triggered": [
         "OI-M1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "medium",
       "final_runs": [
+        "medium",
+        "medium",
         "medium"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -100,14 +131,20 @@
         "OI-M1",
         "OI-M2"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "medium",
       "final_runs": [
+        "medium",
+        "medium",
         "medium"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -125,14 +162,20 @@
         "DP-M2",
         "CI-M1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "medium",
       "final_runs": [
+        "medium",
+        "medium",
         "medium"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -152,14 +195,20 @@
         "BF-H1",
         "RG-H1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "high",
       "final_runs": [
+        "high",
+        "high",
         "high"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -179,14 +228,20 @@
         "DP-H1",
         "BF-H1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "high",
       "final_runs": [
+        "high",
+        "high",
         "high"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -204,14 +259,20 @@
         "CI-H1",
         "ST-H1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "high",
       "final_runs": [
+        "high",
+        "high",
         "high"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -229,14 +290,20 @@
         "DP-H1",
         "OI-M1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "high",
       "final_runs": [
+        "high",
+        "high",
         "high"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -256,14 +323,20 @@
         "BF-H1",
         "RG-H1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "high",
       "final_runs": [
+        "high",
+        "high",
         "high"
       ],
       "verdict_final": "under",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "under",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
@@ -283,14 +356,20 @@
         "CI-H1",
         "ST-H1"
       ],
-      "model_runs": [],
+      "model_runs": [
+        null,
+        null,
+        null
+      ],
       "model": null,
       "final": "high",
       "final_runs": [
+        "high",
+        "high",
         "high"
       ],
       "verdict_final": "match",
-      "verdict_model": null,
+      "verdict_model": "no_answer",
       "verdict_rules": "match",
       "model_tier_changes": 0,
       "final_tier_changes": 0,
