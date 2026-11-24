@@ -152,3 +152,19 @@ def test_hours_saved_formula():
 )
 def test_priority_quadrant(hours, tier, expected):
     assert priority_quadrant(hours, tier, RUBRIC) == expected
+
+
+def test_quadrant_labels_survive_yaml_commas():
+    labels = {k: q.label for k, q in RUBRIC.priority.quadrants.items()}
+    assert labels["govern_then_build"] == "Govern, then build"
+
+
+def test_rubric_rejects_unknown_keys(tmp_path):
+    import yaml
+    from intake.config import RUBRIC_PATH, load_rubric as load
+    raw = yaml.safe_load(RUBRIC_PATH.read_text())
+    raw["priority"]["quadrants"]["park"]["then build"] = None   # what an unquoted comma produces
+    bad = tmp_path / "rubric.yaml"
+    bad.write_text(yaml.safe_dump(raw))
+    with pytest.raises(ValueError, match="Extra inputs"):
+        load(bad)

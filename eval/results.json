@@ -1,0 +1,303 @@
+{
+  "generated_at": "2026-11-24T20:38:44+00:00",
+  "rubric_version": "0.1.0",
+  "mode": "rules_only",
+  "model": null,
+  "usage": null,
+  "summary": {
+    "n": 11,
+    "final": {
+      "match": 10,
+      "under": 1,
+      "over": 0,
+      "no_answer": 0
+    },
+    "rules_alone": {
+      "match": 10,
+      "under": 1,
+      "over": 0,
+      "no_answer": 0
+    },
+    "model_alone": null,
+    "floor_saves": null,
+    "stability": null
+  },
+  "rows": [
+    {
+      "id": 1,
+      "title": "Summarize my meeting notes",
+      "expected": "low",
+      "rules": "low",
+      "rules_triggered": [],
+      "model_runs": [],
+      "model": null,
+      "final": "low",
+      "final_runs": [
+        "low"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 2,
+      "title": "Extract stock figures from facility reports",
+      "expected": "low",
+      "rules": "low",
+      "rules_triggered": [],
+      "model_runs": [],
+      "model": null,
+      "final": "low",
+      "final_runs": [
+        "low"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 3,
+      "title": "Translate staff training slides",
+      "expected": "medium",
+      "rules": "medium",
+      "rules_triggered": [
+        "OI-M1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "medium",
+      "final_runs": [
+        "medium"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 4,
+      "title": "HR policy chatbot for all staff",
+      "expected": "medium",
+      "rules": "medium",
+      "rules_triggered": [
+        "OI-M1",
+        "OI-M2"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "medium",
+      "final_runs": [
+        "medium"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 5,
+      "title": "Draft proposal answers from past wins",
+      "expected": "medium",
+      "rules": "medium",
+      "rules_triggered": [
+        "DP-M2",
+        "CI-M1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "medium",
+      "final_runs": [
+        "medium"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 6,
+      "title": "Rank applicant CVs for program officer role",
+      "expected": "high",
+      "rules": "high",
+      "rules_triggered": [
+        "DP-H2",
+        "DP-M1",
+        "BF-H1",
+        "RG-H1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "high",
+      "final_runs": [
+        "high"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {
+          "LOCATION": 2
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Predict missed clinic appointments",
+      "expected": "high",
+      "rules": "high",
+      "rules_triggered": [
+        "DP-H1",
+        "BF-H1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "high",
+      "final_runs": [
+        "high"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 8,
+      "title": "Fix formulas in a donor budget",
+      "expected": "high",
+      "rules": "high",
+      "rules_triggered": [
+        "CI-H1",
+        "ST-H1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "high",
+      "final_runs": [
+        "high"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 9,
+      "title": "Social posts featuring participant photos",
+      "expected": "high",
+      "rules": "high",
+      "rules_triggered": [
+        "DP-H1",
+        "OI-M1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "high",
+      "final_runs": [
+        "high"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    },
+    {
+      "id": 10,
+      "title": "Score staff engagement from webcam expressions",
+      "expected": "prohibited",
+      "rules": "high",
+      "rules_triggered": [
+        "DP-H2",
+        "DP-M1",
+        "BF-H1",
+        "RG-H1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "high",
+      "final_runs": [
+        "high"
+      ],
+      "verdict_final": "under",
+      "verdict_model": null,
+      "verdict_rules": "under",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {
+          "LOCATION": 2
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Fix formulas in a donor budget (resubmitted)",
+      "expected": "high",
+      "rules": "high",
+      "rules_triggered": [
+        "CI-H1",
+        "ST-H1"
+      ],
+      "model_runs": [],
+      "model": null,
+      "final": "high",
+      "final_runs": [
+        "high"
+      ],
+      "verdict_final": "match",
+      "verdict_model": null,
+      "verdict_rules": "match",
+      "model_tier_changes": 0,
+      "final_tier_changes": 0,
+      "redaction": {
+        "engine": "presidio",
+        "counts": {}
+      }
+    }
+  ]
+}

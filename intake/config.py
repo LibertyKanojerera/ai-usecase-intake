@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 RUBRIC_PATH = Path(__file__).resolve().parent.parent / "rubric.yaml"
 
@@ -34,7 +34,13 @@ RULE_FIELDS = LIST_FIELDS | BOOL_FIELDS | SCALAR_FIELDS
 
 
 # ---------------------------------------------------------------- rubric ---
-class Condition(BaseModel):
+class Strict(BaseModel):
+    """Unknown keys are errors, so a YAML slip fails at load instead of being ignored."""
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class Condition(Strict):
     field: str
     any_of: list[str] | None = None
     is_true: bool | None = None
@@ -50,7 +56,7 @@ class Condition(BaseModel):
         return self
 
 
-class Trigger(BaseModel):
+class Trigger(Strict):
     id: str
     level: Level
     description: str
@@ -66,20 +72,20 @@ class Trigger(BaseModel):
         return self
 
 
-class Dimension(BaseModel):
+class Dimension(Strict):
     label: str
     nist_genai_risk: list[str]
     triggers: list[Trigger]
 
 
-class TierControls(BaseModel):
+class TierControls(Strict):
     required: list[str]
     review: str
     reviewer_actions: list[str]
     signoffs_required: list[str] = Field(default_factory=list)
 
 
-class ValueAssumptions(BaseModel):
+class ValueAssumptions(Strict):
     working_weeks_per_year: float = Field(gt=0)
     loaded_hourly_rate_usd: float = Field(ge=0)
     high_value_hours_cutoff: float = Field(ge=0)
@@ -87,18 +93,18 @@ class ValueAssumptions(BaseModel):
     share_saved_max: float = Field(ge=0, le=1)
 
 
-class Quadrant(BaseModel):
+class Quadrant(Strict):
     value: Literal["high", "low"]
     risk: Literal["higher", "lower"]
     label: str
 
 
-class Priority(BaseModel):
+class Priority(Strict):
     higher_risk_tiers: list[Tier]
     quadrants: dict[str, Quadrant]
 
 
-class Rubric(BaseModel):
+class Rubric(Strict):
     version: str
     effective_date: str
     owner: str

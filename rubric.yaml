@@ -254,10 +254,10 @@ value:
 priority:
   higher_risk_tiers: [medium, high]
   quadrants:
-    fast_track:        {value: high, risk: lower,  label: Fast track}
-    govern_then_build: {value: high, risk: higher, label: Govern, then build}
-    self_serve:        {value: low,  risk: lower,  label: Self-serve with a prompt template}
-    park:              {value: low,  risk: higher, label: Park}
+    fast_track:        {value: high, risk: lower,  label: "Fast track"}
+    govern_then_build: {value: high, risk: higher, label: "Govern, then build"}
+    self_serve:        {value: low,  risk: lower,  label: "Self-serve with a prompt template"}
+    park:              {value: low,  risk: higher, label: "Park"}
 
 # --------------------------------------------------------------------------
 # NIST AI RMF 1.0 (Jan 26, 2023) and Generative AI Profile, NIST AI 600-1

@@ -40,15 +40,24 @@ def tier_badge(tier: str) -> str:
     return f":{TIER_COLORS[tier]}-background[**{TIER_LABELS[tier]}**]"
 
 
+def rank(tier: str) -> int:
+    return load_rubric().tier_rank(tier)
+
+
 # ----------------------------------------------------------------- secrets ---
+def secret(name: str) -> str | None:
+    """Read a value from the environment or Streamlit secrets; None if absent."""
+    if os.environ.get(name):
+        return os.environ[name]
+    try:
+        return st.secrets.get(name)
+    except Exception:  # no secrets file
+        return None
+
+
 def load_api_key() -> None:
     """Copy the key from Streamlit secrets into the environment, if present."""
-    if os.environ.get("ANTHROPIC_API_KEY"):
-        return
-    try:
-        key = st.secrets.get("ANTHROPIC_API_KEY")
-    except Exception:  # no secrets file
-        key = None
+    key = secret("ANTHROPIC_API_KEY")
     if key:
         os.environ["ANTHROPIC_API_KEY"] = key
 
