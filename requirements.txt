@@ -1,5 +1,5 @@
 # Python 3.11 (pinned for Streamlit Community Cloud; tested locally on 3.11+)
-streamlit>=1.40
+streamlit>=1.50
 anthropic>=0.75
 pydantic>=2.9,<3
 PyYAML>=6.0
